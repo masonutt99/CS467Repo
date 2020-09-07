@@ -14,6 +14,7 @@
 
 // Driver code
 int main() {
+    int input;  //the user input`
     int sockfd; //Socket descriptor, like a file-handle
     char buffer[MAXLINE]; //buffer to store message from server
     char *hello = "Hello from client"; //message to send to server
@@ -31,6 +32,30 @@ int main() {
     servaddr.sin_addr.s_addr = INADDR_ANY; //localhost
 
     int n, len = sizeof(servaddr);
+
+    while (1)
+    {
+        printf("Enter one of the following commands:\n");
+        printf("\"1\" = List Songs\n");
+        printf("\"2\" = Stream a Song\n");
+        printf("\"3\" = exit\n");       // standard  question
+        scanf("%d", &input);        //gets input from user
+        fflush(stdin);              //clears input line so new input is needed each time
+
+        if (input == 3)     // exits while loop if user inputs 3
+        {
+            break;
+        }
+        if (input == 2)     // collects song name then streams if user input is 2
+        {
+            
+            
+        }
+        
+        
+        
+    }
+    
     //Sending message to server
     sendto(sockfd, (const char *)hello, strlen(hello), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
     printf("Hello message sent.\n");
