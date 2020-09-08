@@ -48,16 +48,16 @@ int main() {
             printf("Exit");
             break;
         }
-        // if (input == 2)     // collects song name then streams if user input is 2
-        // {
-        //     char songName[MAXLINE];
-        //     printf("Please enter a song name:\n");
+        if (input == 2)     // collects song name then streams if user input is 2
+        {
+            char songName[MAXLINE];
+            printf("Please enter a song name:\n");
             
-        //         fgets(songName, sizeof(MAXLINE), stdin){
-        //             printf("%s", songName);
-        //         }
-        //     songName[strcspn(songName, "\n")] = 0;   // compares the input to the newline character then counts how many letters are before the newline
-        // }
+                fgets(songName, sizeof(MAXLINE), stdin);
+                    printf("%s", songName);
+                
+            songName[strcspn(songName, "\n")] = 0;   // compares the input to the newline character then counts how many letters are before the newline
+        }
         if (input == 1)
         {
             sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
