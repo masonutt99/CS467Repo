@@ -51,10 +51,16 @@ int main() {
         if (input == 2)     // collects song name then streams if user input is 2
         {
             char songName[MAXLINE];
-            printf("Please enter a song name:\n");
-            
-                fgets(songName, sizeof(MAXLINE), stdin);
-                    printf("%s", songName);
+            printf("Please enter a song name: ");
+        
+            fgets(songName, MAXLINE, stdin);
+            printf("string is %s", songName);
+            // scanf("%s", &songName);  
+            // fflush(stdin);
+
+            printf("Sending start stream");
+            printf("Waiting for response");
+
                 
             songName[strcspn(songName, "\n")] = 0;   // compares the input to the newline character then counts how many letters are before the newline
         }
