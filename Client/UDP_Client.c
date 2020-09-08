@@ -53,9 +53,9 @@ int main() {
             char songName[MAXLINE];
             printf("Please enter a song name:\n");
             
-                fgets(songName, sizeof(MAXLINE), stdin);
-                    printf("%s", songName);
-                
+                scanf("%s", songName);
+                printf("%s", songName);
+                fflush(stdin);
             songName[strcspn(songName, "\n")] = 0;   // compares the input to the newline character then counts how many letters are before the newline
         }
         if (input == 1)
