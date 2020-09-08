@@ -1,4 +1,11 @@
 //Code obtained and modified from https://www.geeksforgeeks.org/udp-server-client-implementation-c/
+/**
+ * 
+ * @authors Mason Utt and Timothy Jackson
+ * 
+ * 
+ * 
+**/
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,7 +18,7 @@
 
 #define PORT     4240
 #define MAXLINE 1024
-//This is duval
+
 // Driver code
 int main() {
     int input;  //the user input`
@@ -19,7 +26,7 @@ int main() {
     char buffer[MAXLINE]; //buffer to store message from server
     char *hello = "Hello from client"; //message to send to server
     char *list  = "LIST_REQUEST"; //message sent to server to list songs.
-    char *stream = "START_STREAM"; //first half of stream message
+    char *stream = "START_STREAM\n"; //first half of stream message
     struct sockaddr_in     servaddr;  //we don't bind to a socket to send UDP traffic, so we only need to configure server address
 
     // Creating socket file descriptor
@@ -62,10 +69,9 @@ int main() {
             fgets(songName, MAXLINE, stdin);
             printf("String is: %s", songName);
             fflush(stdin);
-            songName[strlen(songName)-1] = '\n';
-            // strcat(stream, songName);
-            // printf("file name: %s \n", stream);
-            songName[strcspn(songName, "\n")] = '\0';   // assigns the newline character as a '\0'
+            // songName[strlen(songName)] = '\n';
+            strncat(stream, songName, strlen(songName));
+            printf("file name: %s \n", stream);
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
         }
