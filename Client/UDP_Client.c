@@ -62,9 +62,9 @@ int main() {
             fgets(songName, MAXLINE, stdin);
             printf("String is: %s", songName);
             fflush(stdin);
-            //songName[strcspn(songName, "\n")] = 0;   // assigns the newline character as a '\0'
-            strcat(stream, songName);
-            printf("file name: %s \n", stream);
+            songName[strlen(songName)-1] = '\n';
+            // strcat(stream, songName);
+            // printf("file name: %s \n", stream);
             songName[strcspn(songName, "\n")] = '\0';   // assigns the newline character as a '\0'
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
@@ -72,6 +72,7 @@ int main() {
         if (input == 1)
         {
             sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+            printf("Requesting a list of songs\nSongs Available:\n");
         }
         
         if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
