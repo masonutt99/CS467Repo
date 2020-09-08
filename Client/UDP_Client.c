@@ -63,21 +63,31 @@ int main() {
             sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
         }
         
-    }
+        if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
+        {
+        perror("ERROR");
+        printf("Errno: %d. ",errno);
+        exit(EXIT_FAILURE);
+        }
+        buffer[n] = '\0'; //terminate message
+        printf("Server : %s\n", buffer);
+        fflush(stdin); // clears the stdin
+    } // do while loop goes back to top
+
     
     //Sending message to server
     // sendto(sockfd, (const char *)hello, strlen(hello), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
     // printf("Hello message sent.\n");
 
     // Receive message from client
-    if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
-    {
-        perror("ERROR");
-        printf("Errno: %d. ",errno);
-        exit(EXIT_FAILURE);
-    }
-    buffer[n] = '\0'; //terminate message
-    printf("Server : %s\n", buffer);
+    // if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
+    // {
+    //     perror("ERROR");
+    //     printf("Errno: %d. ",errno);
+    //     exit(EXIT_FAILURE);
+    // }
+    // buffer[n] = '\0'; //terminate message
+    // printf("Server : %s\n", buffer);
 
     close(sockfd);
     return 0;
