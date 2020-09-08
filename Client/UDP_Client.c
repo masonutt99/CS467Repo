@@ -51,7 +51,7 @@ int main() {
         if (input == 2)     // collects song name then streams if user input is 2
         {
             char songName[MAXLINE];
-            printf("Please enter a song name:\n");
+            fgets(songName, MAXLINE, stdin);
             
                 scanf("%s", songName);
                 printf("%s", songName);
