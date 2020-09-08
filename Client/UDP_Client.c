@@ -18,6 +18,7 @@ int main() {
     int sockfd; //Socket descriptor, like a file-handle
     char buffer[MAXLINE]; //buffer to store message from server
     char *hello = "Hello from client"; //message to send to server
+    char *list  = "LIST_REQUEST"; //message sent to server to list songs.
     struct sockaddr_in     servaddr;  //we don't bind to a socket to send UDP traffic, so we only need to configure server address
 
     // Creating socket file descriptor
@@ -44,21 +45,29 @@ int main() {
 
         if (input == 3)     // exits while loop if user inputs 3
         {
+            printf("Exit");
             break;
         }
-        if (input == 2)     // collects song name then streams if user input is 2
+        // if (input == 2)     // collects song name then streams if user input is 2
+        // {
+        //     char songName[MAXLINE];
+        //     printf("Please enter a song name:\n");
+            
+        //         fgets(songName, sizeof(MAXLINE), stdin){
+        //             printf("%s", songName);
+        //         }
+        //     songName[strcspn(songName, "\n")] = 0;   // compares the input to the newline character then counts how many letters are before the newline
+        // }
+        if (input == 1)
         {
-            
-            
+            sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
         }
-        
-        
         
     }
     
     //Sending message to server
-    sendto(sockfd, (const char *)hello, strlen(hello), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-    printf("Hello message sent.\n");
+    // sendto(sockfd, (const char *)hello, strlen(hello), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+    // printf("Hello message sent.\n");
 
     // Receive message from client
     if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
