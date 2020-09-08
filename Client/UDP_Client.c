@@ -67,11 +67,12 @@ int main() {
                 }while(c != EOF && c != '\n');  // buffer for input from scan f (from stack over flow)
 
             fgets(songName, MAXLINE, stdin);
-            printf("String is: %s", songName);
+            // scanf("%s", &songName);
+            printf("String is: %s\n", songName);
             fflush(stdin);
             songName[strlen(songName)-1] = '\0';
             strcat(stream, songName) ;
-            printf("file name: %s", stream);
+            printf("file name: %s\n", stream);
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
             for (int i = 0; i < sizeof(songName) ; i++)
             {
