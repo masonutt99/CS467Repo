@@ -53,13 +53,16 @@ int main() {
         {
             char songName[MAXLINE];
             printf("Please enter a song name: ");
+
             int c;
                 do{
                 c = getchar();
-                }while(c != EOF && c != '\n');  // from stack over flow
+                }while(c != EOF && c != '\n');  // buffer for input from scan f (from stack over flow)
+
             fgets(songName, MAXLINE, stdin);
             printf("String is: %s", songName);
             fflush(stdin);
+
             songName[strcspn(songName, "\n")] = '\0';   // assigns the newline character as a '\0'
             sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
