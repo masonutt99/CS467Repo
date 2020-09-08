@@ -84,7 +84,7 @@ int main() {
             sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
             printf("Requesting a list of songs\nSongs Available:\n");
         }
-        
+        // printf("%s", recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len));
         if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
         {
         perror("ERROR");
