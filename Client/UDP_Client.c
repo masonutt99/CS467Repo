@@ -19,6 +19,7 @@ int main() {
     char buffer[MAXLINE]; //buffer to store message from server
     char *hello = "Hello from client"; //message to send to server
     char *list  = "LIST_REQUEST"; //message sent to server to list songs.
+    char *stream = "START_STREAM"
     struct sockaddr_in     servaddr;  //we don't bind to a socket to send UDP traffic, so we only need to configure server address
 
     // Creating socket file descriptor
@@ -60,6 +61,8 @@ int main() {
             printf("String is: %s", songName);
             fflush(stdin);
             songName[strcspn(songName, "\n")] = '\0';   // assigns the newline character as a '\0'
+            sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+
         }
         if (input == 1)
         {
