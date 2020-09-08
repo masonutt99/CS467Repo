@@ -64,7 +64,7 @@ int main() {
             fflush(stdin);
 
             songName[strcspn(songName, "\n")] = '\0';   // assigns the newline character as a '\0'
-            sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+            sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
         }
         if (input == 1)
