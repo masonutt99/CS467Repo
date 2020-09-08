@@ -60,7 +60,6 @@ int main() {
         {
             char songName[MAXLINE] = "";
             char stream[MAXLINE] = "START_STREAM\n"; //first half of stream message
-            // stream[MAXLINE] = "START_STREAM";
             printf("Please enter a song name: ");
 
             int c;
@@ -78,6 +77,25 @@ int main() {
             printf("file name: %s\n", stream);
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
             
+            FILE* fp;
+            
+            while (strcmp(buffer, "STREAM_DONE") != 0)
+            {
+                if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
+                    {
+                    perror("ERROR");
+                    printf("Errno: %d. ",errno);
+                    exit(EXIT_FAILURE);
+                    }
+                buffer[n] = '\0'; //terminate message
+                if (strcmp(buffer, "COMMAND_ERROR")){
+                    exit;
+                }
+                printf("Server : %s\n", buffer);
+                fflush(stdin); // clears the stdin
+            }
+            
+
         }
         if (input == 1)
         {
