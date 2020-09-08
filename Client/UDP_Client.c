@@ -69,10 +69,10 @@ int main() {
             fgets(songName, MAXLINE, stdin);
             printf("String is: %s", songName);
             fflush(stdin);
-            // songName[strlen(songName)] = '\n';
+            songName[strlen(songName)-1] = '\0';
             strcat(stream, songName) ;
-            printf("file name: %s \n", stream);
-            // sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
+            printf("file name: %s", stream);
+            sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
 
         }
         if (input == 1)
