@@ -26,7 +26,7 @@ int main() {
     char buffer[MAXLINE]; //buffer to store message from server
     char *hello = "Hello from client"; //message to send to server
     char *list  = "LIST_REQUEST"; //message sent to server to list songs.
-    char stream[MAXLINE] = "START_STREAM\n"; //first half of stream message
+    
     struct sockaddr_in     servaddr;  //we don't bind to a socket to send UDP traffic, so we only need to configure server address
 
     // Creating socket file descriptor
@@ -58,7 +58,9 @@ int main() {
         }
         if (input == 2)     // collects song name then streams if user input is 2
         {
-            char songName[MAXLINE];
+            char songName[MAXLINE] = "";
+            char stream[MAXLINE] = "START_STREAM\n"; //first half of stream message
+            // stream[MAXLINE] = "START_STREAM";
             printf("Please enter a song name: ");
 
             int c;
@@ -71,13 +73,11 @@ int main() {
             printf("String is: %s\n", songName);
             fflush(stdin);
             songName[strlen(songName)-1] = '\0';
+            printf("%s\n", stream);
             strcat(stream, songName) ;
             printf("file name: %s\n", stream);
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-            for (int i = 0; i < sizeof(songName) ; i++)
-            {
-                songName[i] = '\0';
-            }
+            
         }
         if (input == 1)
         {
