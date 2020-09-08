@@ -73,7 +73,7 @@ int main() {
             strcat(stream, songName) ;
             printf("file name: %s", stream);
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-
+            
         }
         if (input == 1)
         {
