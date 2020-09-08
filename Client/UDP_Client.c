@@ -52,10 +52,8 @@ int main() {
         {
             char songName[MAXLINE];
             fgets(songName, MAXLINE, stdin);
-            
-                scanf("%s", songName);
-                printf("%s", songName);
-                fflush(stdin);
+            printf("String is: %s", songName);
+            fflush(stdin);
             songName[strcspn(songName, "\n")] = '\0';   // assigns the newline character as a '\0'
         }
         if (input == 1)
