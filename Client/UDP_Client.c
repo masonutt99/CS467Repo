@@ -19,7 +19,7 @@ int main() {
     char buffer[MAXLINE]; //buffer to store message from server
     char *hello = "Hello from client"; //message to send to server
     char *list  = "LIST_REQUEST"; //message sent to server to list songs.
-    char *stream = "START_STREAM";
+    char *stream = "START_STREAM"; //first half of stream message
     struct sockaddr_in     servaddr;  //we don't bind to a socket to send UDP traffic, so we only need to configure server address
 
     // Creating socket file descriptor
