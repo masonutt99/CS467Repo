@@ -3,6 +3,8 @@
  * 
  * @authors Mason Utt and Timothy Jackson
  * 
+ * Doc: C2C Duran and Olszewski explained to only adjust udp_client and to reverse engineer server.
+ * EI with Lt Col Merrit helped get the file to be read to be sent to server
  * 
  * 
 **/
@@ -44,6 +46,7 @@ int main() {
 
     while (1)
     {
+        int frames = 1;
         printf("Enter one of the following commands:\n");
         printf("\"1\" = List Songs\n");
         printf("\"2\" = Stream a Song\n");
@@ -72,14 +75,16 @@ int main() {
             printf("String is: %s\n", songName);
             fflush(stdin);
             songName[strlen(songName)-1] = '\0';
-            printf("%s\n", stream);
+            // printf("%s\n", stream);
             strcat(stream, songName) ;
             printf("file name: %s\n", stream);
+
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
             
             FILE* fp;
             
-            while (strcmp(buffer, "STREAM_DONE") != 0)
+            if (strstr(buffer, "COMMAND_ERROR") !=0){
+            while (strstr(buffer, "STREAM_DONE") != 0)
             {
                 if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
                     {
@@ -88,17 +93,21 @@ int main() {
                     exit(EXIT_FAILURE);
                     }
                 buffer[n] = '\0'; //terminate message
-                if (strcmp(buffer, "COMMAND_ERROR")){
-                    exit;
-                }
-                if (strcmp(buffer, "STREAM_DATA"))
+                
+                    
+                
+                if (strstr(buffer, "STREAM_DATA"))
                 {
                     
+                    // printf("Server : %s\n", buffer);
+                    printf("Frame # %d received with    bytes\n", frames);
+                    frames++;
                 }
-                printf("Server : %s\n", buffer);
-                fflush(stdin); // clears the stdin
+                // fflush(stdin); // clears the stdin
             }
-            
+            printf("It left loop");
+            }
+            // printf("it read STREAM_DONE");
 
         }
         if (input == 1)
@@ -115,7 +124,7 @@ int main() {
         }
         buffer[n] = '\0'; //terminate message
         printf("Server : %s\n", buffer);
-        printf("complete");
+        // printf("complete");
         fflush(stdin); // clears the stdin
     } // do while loop goes back to top
 
