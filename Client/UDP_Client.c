@@ -91,6 +91,10 @@ int main() {
                 if (strcmp(buffer, "COMMAND_ERROR")){
                     exit;
                 }
+                if (strcmp(buffer, "STREAM_DATA"))
+                {
+                    
+                }
                 printf("Server : %s\n", buffer);
                 fflush(stdin); // clears the stdin
             }
@@ -111,6 +115,7 @@ int main() {
         }
         buffer[n] = '\0'; //terminate message
         printf("Server : %s\n", buffer);
+        printf("complete");
         fflush(stdin); // clears the stdin
     } // do while loop goes back to top
 
