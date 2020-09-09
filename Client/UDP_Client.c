@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -20,6 +21,14 @@
 
 #define PORT     4240
 #define MAXLINE 1024
+
+// struct timeval timeout; //structure for timeout
+// timeout.tv_sec = 5;  //5 second timeout
+// timeout.tv_usec = 0; //0 milliseconds
+// if (setsockopt(sockfd, SQL_SOCKET, SQ_RCVTIMEO, (char *) &timeout, sizeof(timeout)) < 0){
+//     perror("setsockopt failed");
+//     exit(EXIT_FAILURE);
+// }
 
 // Driver code
 int main() {
@@ -83,8 +92,8 @@ int main() {
             
             FILE* fp;
             
-            if (strstr(buffer, "COMMAND_ERROR") !=0){
-            while (strstr(buffer, "STREAM_DONE") != 0)
+            if (strstr(buffer, "COMMAND_ERROR") == NULL){
+            while (strstr(buffer, "STREAM_DONE") == NULL)
             {
                 if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
                     {
@@ -93,9 +102,6 @@ int main() {
                     exit(EXIT_FAILURE);
                     }
                 buffer[n] = '\0'; //terminate message
-                
-                    
-                
                 if (strstr(buffer, "STREAM_DATA"))
                 {
                     
@@ -103,6 +109,9 @@ int main() {
                     printf("Frame # %d received with    bytes\n", frames);
                     frames++;
                 }
+                // if(frames >= 1077){
+                //     break;
+                // }
                 // fflush(stdin); // clears the stdin
             }
             printf("It left loop");
