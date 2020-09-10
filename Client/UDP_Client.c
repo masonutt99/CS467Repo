@@ -116,7 +116,7 @@ int main() {
             }
             printf("It left loop");
             }
-            // printf("it read STREAM_DONE");
+            printf("it read STREAM_DONE");
 
         }
         if (input == 1)
