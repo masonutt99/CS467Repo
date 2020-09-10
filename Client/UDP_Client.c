@@ -65,7 +65,7 @@ int main() {
         printf("\"3\" = exit\n");       // standard  question
         scanf("%d", &input);        //gets input from user
         } while (input != 1 && input != 2 && input != 3);
-        //fflush(stdin);              //clears input line so new input is needed each time
+        fflush(stdin);           //clears input line so new input is needed each time
 
         if (input == 3)     // exits while loop if user inputs 3
         {
@@ -116,9 +116,10 @@ int main() {
             printf("Done!\n");
         }
         if (input == 1)
-        {
+        {   
+            printf("Requesting a list of songs.\n");   
             sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-            printf("Requesting a list of songs\nSongs Available:\n");
+            printf("Songs Available:\n");
         }
         if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
         {
@@ -128,6 +129,7 @@ int main() {
         }
         buffer[n] = '\0'; //terminate message
         fflush(stdin); // clears the stdin
+        printf("Server Reply in Buffer:%s\n", buffer);
     } while (input != 3); // do while loop goes back to top
     
     printf("closing socket");
