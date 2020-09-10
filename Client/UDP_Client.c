@@ -84,13 +84,9 @@ int main() {
                 }while(c != EOF && c != '\n');  // buffer for input from scan f (from stack over flow)
 
             fgets(songName, MAXLINE, stdin);
-            // scanf("%s", &songName);
-            // printf("String is: %s\n", songName);
             fflush(stdin);
             songName[strlen(songName)-1] = '\0';
-            // printf("%s\n", stream);
             strcat(stream, songName) ;
-            // printf("file name: %s\n", stream);
 
             printf("Sending start stream\n");
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
@@ -110,15 +106,10 @@ int main() {
                 if (strstr(buffer, "STREAM_DATA"))
                 {
                     
-                    // printf("Server : %s\n", buffer);
                     SumOfBytes = SumOfBytes + (n-12);
-                    printf("Frame # %d received with %d bytes\n", frames, n-12);// trying to fix byte count
+                    printf("Frame # %d received with %d bytes\n", frames, n-12);
                     frames++;
-                }
-                // if(frames >= 1077){
-                //     break;
-                // }
-                // fflush(stdin); // clears the stdin   
+                } 
             }
             printf("Stream done.  Total Frames: %d Total Size: %d bytes\n", frames - 1, SumOfBytes);
             }
@@ -129,7 +120,6 @@ int main() {
             sendto(sockfd, (const char *)list, strlen(list), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
             printf("Requesting a list of songs\nSongs Available:\n");
         }
-        // printf("%s", recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len));
         if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
         {
         perror("ERROR");
@@ -137,24 +127,9 @@ int main() {
         exit(EXIT_FAILURE);
         }
         buffer[n] = '\0'; //terminate message
-        //printf("Server : %s\n", buffer);
-        // printf("complete");
         fflush(stdin); // clears the stdin
     } while (input != 3); // do while loop goes back to top
     
-    //Sending message to server
-    // sendto(sockfd, (const char *)hello, strlen(hello), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-    // printf("Hello message sent.\n");
-
-    // Receive message from client
-    // if(( n = recvfrom(sockfd, (char *)buffer, MAXLINE, 0, (struct sockaddr *) &servaddr, &len))<0)
-    // {
-    //     perror("ERROR");
-    //     printf("Errno: %d. ",errno);
-    //     exit(EXIT_FAILURE);
-    // }
-    // buffer[n] = '\0'; //terminate message
-    // printf("Server : %s\n", buffer);
     printf("closing socket");
     close(sockfd);
     return 0;
