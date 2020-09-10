@@ -53,14 +53,18 @@ int main() {
 
     int n, len = sizeof(servaddr);
 
-    while (1)
+    do
     {
         int frames = 1;
+        int SumOfBytes = 0;
+        do
+        {
         printf("Enter one of the following commands:\n");
         printf("\"1\" = List Songs\n");
         printf("\"2\" = Stream a Song\n");
         printf("\"3\" = exit\n");       // standard  question
         scanf("%d", &input);        //gets input from user
+        } while (input != 1 && input != 2 && input != 3);
         fflush(stdin);              //clears input line so new input is needed each time
 
         if (input == 3)     // exits while loop if user inputs 3
@@ -81,15 +85,16 @@ int main() {
 
             fgets(songName, MAXLINE, stdin);
             // scanf("%s", &songName);
-            printf("String is: %s\n", songName);
+            // printf("String is: %s\n", songName);
             fflush(stdin);
             songName[strlen(songName)-1] = '\0';
             // printf("%s\n", stream);
             strcat(stream, songName) ;
-            printf("file name: %s\n", stream);
+            // printf("file name: %s\n", stream);
 
+            printf("Sending start stream\n");
             sendto(sockfd, (const char *)stream, strlen(stream), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
-            
+            printf("Waiting for response\n");
             FILE* fp;
             
             if (strstr(buffer, "COMMAND_ERROR") == NULL){
@@ -106,18 +111,18 @@ int main() {
                 {
                     
                     // printf("Server : %s\n", buffer);
-                    printf("Frame # %d received with    bytes\n", frames);
+                    SumOfBytes = SumOfBytes + (n-12);
+                    printf("Frame # %d received with %d bytes\n", frames, n-12);// trying to fix byte count
                     frames++;
                 }
                 // if(frames >= 1077){
                 //     break;
                 // }
-                // fflush(stdin); // clears the stdin
+                // fflush(stdin); // clears the stdin   
             }
-            printf("It left loop");
+            printf("Stream done.  Total Frames: %d Total Size: %d bytes\n", frames - 1, SumOfBytes);
             }
-            printf("it read STREAM_DONE");
-
+            printf("Done!\n");
         }
         if (input == 1)
         {
@@ -132,11 +137,10 @@ int main() {
         exit(EXIT_FAILURE);
         }
         buffer[n] = '\0'; //terminate message
-        printf("Server : %s\n", buffer);
+        //printf("Server : %s\n", buffer);
         // printf("complete");
         fflush(stdin); // clears the stdin
-    } // do while loop goes back to top
-
+    } while (input != 3); // do while loop goes back to top
     
     //Sending message to server
     // sendto(sockfd, (const char *)hello, strlen(hello), 0, (const struct sockaddr *) &servaddr, sizeof(servaddr));
@@ -151,7 +155,7 @@ int main() {
     // }
     // buffer[n] = '\0'; //terminate message
     // printf("Server : %s\n", buffer);
-
+    printf("closing socket");
     close(sockfd);
     return 0;
 }
