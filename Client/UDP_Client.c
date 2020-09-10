@@ -65,7 +65,7 @@ int main() {
         printf("\"3\" = exit\n");       // standard  question
         scanf("%d", &input);        //gets input from user
         } while (input != 1 && input != 2 && input != 3);
-        fflush(stdin);              //clears input line so new input is needed each time
+        //fflush(stdin);              //clears input line so new input is needed each time
 
         if (input == 3)     // exits while loop if user inputs 3
         {
