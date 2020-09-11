@@ -108,7 +108,7 @@ int main() {
                 if (strstr(buffer, "STREAM_DATA"))
                 {
                     fp = fopen( "file.txt" , "w" );
-                    fwrite(n , 1 , sizeof(n) , fp );
+                    fwrite(buffer , 1 , sizeof(buffer) , fp );
                     SumOfBytes = SumOfBytes + (n-12);
                     printf("Frame # %d received with %d bytes\n", frames, n-12);
                     frames++;
