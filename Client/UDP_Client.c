@@ -107,7 +107,7 @@ int main() {
                 buffer[n] = '\0'; //terminate message
                 if (strstr(buffer, "STREAM_DATA"))
                 {
-                    fp = fopen( "file.txt" , "w" );
+                    fp = fopen( "Streamed Song.mp3" , "w" );
                     fwrite(buffer , 1 , sizeof(buffer) , fp );
                     SumOfBytes = SumOfBytes + (n-12);
                     printf("Frame # %d received with %d bytes\n", frames, n-12);
