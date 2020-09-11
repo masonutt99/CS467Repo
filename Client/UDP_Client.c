@@ -59,6 +59,8 @@ int main() {
         int SumOfBytes = 0;
         do
         {
+        FILE *fp;// pointer for file being written too
+
         printf("Enter one of the following commands:\n");
         printf("\"1\" = List Songs\n");
         printf("\"2\" = Stream a Song\n");
@@ -105,11 +107,14 @@ int main() {
                 buffer[n] = '\0'; //terminate message
                 if (strstr(buffer, "STREAM_DATA"))
                 {
-                    
+                    fp = fopen( "file.txt" , "w" );
+                    fwrite(n , 1 , sizeof(n) , fp );
                     SumOfBytes = SumOfBytes + (n-12);
                     printf("Frame # %d received with %d bytes\n", frames, n-12);
                     frames++;
                 } 
+                fclose(fp);
+
             }
             printf("Stream done.  Total Frames: %d Total Size: %d bytes\n", frames - 1, SumOfBytes);
             }
