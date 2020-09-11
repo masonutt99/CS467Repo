@@ -32,14 +32,9 @@ int main() {
     
     struct sockaddr_in     servaddr;  //we don't bind to a socket to send UDP traffic, so we only need to configure server address
 
-    // struct timeval timeout; //structure for timeout
-    // timeout.tv_sec = 5;  //5 second timeout
-    // timeout.tv_usec = 0; //0 milliseconds
-    // if (setsockopt(sockfd, SQL_SOCKET, SQ_RCVTIMEO, (char *) &timeout, sizeof(timeout)) < 0)
-    // {
-    //     perror("setsockopt failed");
-    //     exit(EXIT_FAILURE);
-    // }
+    // struct timeval Timeout; //structure for timeout
+    // Timeout.tv_sec = 5;  //5 second timeout
+    // Timeout.tv_usec = 0; //0 milliseconds
 
     // Creating socket file descriptor
     if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
@@ -120,8 +115,6 @@ int main() {
             printf("Stream done.  Total Frames: %d Total Size: %d bytes\n", frames - 1, SumOfBytes);
             }
             printf("Done!\n");
-            printf("closing socket");
-            close(sockfd);
         }
         if (input == 1)
         {   
