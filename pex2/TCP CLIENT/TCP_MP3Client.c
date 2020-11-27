@@ -33,12 +33,13 @@ int main() {
     
     struct sockaddr_in     servaddr;  //we don't bind to a socket to send UDP traffic, so we only need to configure server address
 
-    // struct timeval Timeout; //structure for timeout
-    // Timeout.tv_sec = 5;  //5 second timeout
-    // Timeout.tv_usec = 0; //0 milliseconds
+    struct timeval Timeout; //structure for timeout
+    Timeout.tv_sec = 1;  //1 second timeout
+    Timeout.tv_usec = 0; //0 milliseconds
 
     // Creating socket file descriptor
-    if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
+    //IPPROTO_TCP
+    if ( (sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0 ) {
         perror("socket creation failed");
         exit(EXIT_FAILURE);
     }
@@ -54,7 +55,7 @@ int main() {
     {
         int frames = 1;
         int SumOfBytes = 0;
-
+        
         struct tcp_info* connections_info; // updates tcp_info struct
 
         do

@@ -27,6 +27,10 @@ struct tcp_info{
     int remote_data_acknowledged; // what the other side has received based on ACK #
 };
 
+struct timeval{
+    int tv_sec;
+    int tv_usec;
+};
 
 int ParseTCPHeader(char *buffer, struct tcp_info *connection_info); //prototype for ParseTCP
 
@@ -151,18 +155,23 @@ int ParseTCPHeader(char *buffer, struct tcp_info *connection_info){
 // this function implements Sending Rule #3 from PEX2 CS467 instructions
 int WaitForACK(int sockfd, char * packet_sent, int packet_length, struct sockaddr_in * addr, struct tcp_info* connection_info, int num_attempts){
     
-    /* this implements Sending Rule #3.a from PEX2 CS467 instructions
+    // this implements Sending Rule #3.a from PEX2 CS467 instructions
+
     char * buffer = malloc(sizeof(char)*MAXLINE);
-    struct timeval timeout;
-    timeout.tv_sec = 1; //sets timeout in seconds
-    timeout.tv_usec = 0; //0 milliseconds
-    if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *) &timeout, sizeof                                                                                                                                                                                                                                                                                                                               (timeout)) < 0){
+    struct timeval Timeout;
+    Timeout.tv_sec = 1; //sets timeout in seconds
+    Timeout.tv_usec = 0; //0 milliseconds
+    if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *) &Timeout, sizeof                                                                                                                                                                                                                                                                                                                               (timeout)) < 0){
         perror("setsockopt failed");
         return -1;
     }
-    */
+    
+    // this implements Sending Rule #3.a from PEX2 CS467 instructions
+    
+    
 
-    //implement Sending Rule 3.b. and 3.c from PEX2 CS467 instructions
+    // this implements Sending Rule #3.a from PEX2 CS467 instructions
+
 
     return 0;
 }
@@ -170,15 +179,21 @@ int WaitForACK(int sockfd, char * packet_sent, int packet_length, struct sockadd
 int TCPSend(int sockfd, char* appdata, int appdata_length, struct sockaddr_in * addr, struct tcp_info *connection_info){
     //new buffer is required to add TCP header
     char* buffer = malloc(sizeof(char)*MAXLINE);
-    int flags = 0; //actually, set this to some integer representing which flags you want to set for this packet
+    int flags = 3; //actually, set this to some integer representing which flags you want to set for this packet
     //build a buffer containing the TCP header
     int header_length= BuildPacketHeader(buffer, connection_info, flags);
 
     //send packet with sendto()
 
+    sendto(sockfd, (const char *)appdata, strlen(appdata), 0, (const struct sockaddr *) &addr, sizeof(addr));
+
     //if sendto() was successful, then update data_sent with how many bytes were just sent
     
+    connection_info->data_sent = sizeof(addr);
+
     //immediately get ACK by calling WaitForAck function (see above) according to Sending Rule #3 from PEX2 CS467 instructions
+
+    WaitForACK;
 
     return 0;
 }
@@ -195,9 +210,10 @@ struct tcp_info* TCPConnect(int sockfd,  struct sockaddr_in *servaddr){
     connection_info->remote_data_acknowledged = 0;
 
     //do the 3-way handshake using TCPSend, sendto, TCPReceivePacket, recvfrom, or any other combo of sending/receving
-
+    
+    
     TCPSend;
-    TCPReceive;
+    TCPReceivePacket;
     TCPSend;
 
     printf("Connected!\n");
